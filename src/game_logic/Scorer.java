@@ -1,10 +1,16 @@
 package game_logic;
 
+import user_interface.Main;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class Scorer {
-    public static FeedbackPin[] feedback(CodePin[] userGuess, CodePin[] actualCode) {
+    public static FeedbackPin[] feedback(CodePin[] uGuess, CodePin[] aCode) {
+        CodePin[] userGuess = Arrays.copyOf(uGuess, uGuess.length);
+        CodePin[] actualCode = Arrays.copyOf(aCode, aCode.length);
         ArrayList<FeedbackPin> feedbackPins = new ArrayList<>();
         if(userGuess.length == actualCode.length) {
             for (int i = 0; i < actualCode.length; i++) {
@@ -12,14 +18,18 @@ public class Scorer {
                 int colorIndex = indexOfColor(c, userGuess);
                 if(colorIndex == i) {
                     feedbackPins.add(new FeedbackPin(Color.Red));
+                    userGuess[i] = null;
                 }
                 else if(colorIndex != -1) {
                     feedbackPins.add(new FeedbackPin(Color.White));
+                    userGuess[i] = null;
                 }
             }
         }
 
-        return feedbackPins.toArray();
+        FeedbackPin[] feedbackPins1 = new FeedbackPin[feedbackPins.size()];
+        feedbackPins.toArray(feedbackPins1);
+        return feedbackPins1;
     }
 
     /**
@@ -30,10 +40,29 @@ public class Scorer {
      */
     private static int indexOfColor(Color color, CodePin[] pins) {
         for (int i = 0; i < pins.length; i++) {
-            if(pins[i].getColor().equals(color)) {
+            if(pins[i] != null && pins[i].getColor().equals(color)) {
                 return i;
             }
         }
         return -1;
+    }
+
+    public static CodePin[] generateRandomCode() {
+        CodePin[] code = new CodePin[5];
+        for (int i = 0; i < code.length; i++) {
+            Random random = new Random();
+            Color c = Color.values()[random.nextInt(Color.values().length)];
+            code[i] = new CodePin(c);
+        }
+
+        return code;
+    }
+
+    /**
+     * This method should be called when the player makes a guess.  It should create the CodePin array, get the feedback, and send that feedback back to
+     * the UI to be displayed on the screen
+     */
+    public static void guess(CodePin[] userGuess) {
+        FeedbackPin[] feedbackPins = feedback(userGuess, Main.getCode());
     }
 }
