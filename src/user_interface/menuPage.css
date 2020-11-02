@@ -1,5 +1,5 @@
-.gameHeader {
-    -fx-alignment:center;
+
+.gameTitle {
     -fx-font-weight: bold;
     -fx-font-size: 5em;
 }

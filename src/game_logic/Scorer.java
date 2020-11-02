@@ -47,13 +47,20 @@ public class Scorer {
         return -1;
     }
 
-    public static CodePin[] generateRandomCode() {
+    public static CodePin[] generateRandomCode(boolean duplicatesAllowed) {
         CodePin[] code = new CodePin[5];
+        ArrayList<Color> colors = new ArrayList<>(Arrays.asList(Color.values()));
+
+
         for (int i = 0; i < code.length; i++) {
             Random random = new Random();
-            Color c = Color.values()[random.nextInt(Color.values().length)];
+            Color c = colors.get(random.nextInt(colors.size()));
+            if(!duplicatesAllowed) {
+                colors.remove(c);
+            }
             code[i] = new CodePin(c);
         }
+
 
         return code;
     }
