@@ -1,13 +1,41 @@
 package game_logic;
 
-public class Pin {
-    protected Color color;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
-    public Pin(Color color) {
-        this.color = color;
+import static user_interface.MastermindApp.CELL_SIZE;
+
+public class Pin extends StackPane {
+    private PinColor pinColor;
+
+    public Pin(PinColor pinColor) {
+        this.pinColor = pinColor;
     }
 
-    public Color getColor() {
-        return color;
+    public Pin(PinColor c, int x, int y) {
+        this.pinColor = pinColor;
+
+        double scale = 0.35;
+
+        relocate(x*CELL_SIZE, y*CELL_SIZE);
+
+        Circle circle = new Circle(CELL_SIZE * scale);
+        circle.setFill(c.color);
+
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(CELL_SIZE*0.025);
+
+        circle.setTranslateX((CELL_SIZE - CELL_SIZE * scale * 2) / 2);
+        circle.setTranslateY((CELL_SIZE - CELL_SIZE * scale * 2) / 2);
+
+        getChildren().addAll(circle);
     }
+
+    public PinColor getColor() {
+        return pinColor;
+    }
+
+
+
 }

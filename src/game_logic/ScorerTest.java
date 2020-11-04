@@ -1,9 +1,5 @@
 package game_logic;
 
-import game_logic.CodePin;
-import game_logic.Color;
-import game_logic.FeedbackPin;
-import game_logic.Scorer;
 import org.junit.*;
 
 import java.util.Arrays;
@@ -35,16 +31,16 @@ public class ScorerTest {
 
     @Test
     public void testFeedback1() {
-        CodePin[] userGuess = new CodePin[] {new CodePin(Color.Blue), new CodePin(Color.Red), new CodePin(Color.Green),
-        new CodePin(Color.Green), new CodePin(Color.Orange)};
+        CodePin[] userGuess = new CodePin[] {new CodePin(PinColor.Blue), new CodePin(PinColor.Red), new CodePin(PinColor.Green),
+        new CodePin(PinColor.Green), new CodePin(PinColor.Orange)};
 
-        CodePin[] actualCode = new CodePin[] {new CodePin(Color.Blue), new CodePin(Color.Red), new CodePin(Color.Green),
-                new CodePin(Color.Green), new CodePin(Color.Orange)};
+        CodePin[] actualCode = new CodePin[] {new CodePin(PinColor.Blue), new CodePin(PinColor.Red), new CodePin(PinColor.Green),
+                new CodePin(PinColor.Green), new CodePin(PinColor.Orange)};
 
         FeedbackPin[] feedbackPins = Scorer.feedback(userGuess, actualCode);
 
-        FeedbackPin[] expectedFeedback = new FeedbackPin[] { new FeedbackPin(Color.Red), new FeedbackPin(Color.Red),
-                new FeedbackPin(Color.Red), new FeedbackPin(Color.Red), new FeedbackPin(Color.Red)};
+        FeedbackPin[] expectedFeedback = new FeedbackPin[] { new FeedbackPin(PinColor.Red), new FeedbackPin(PinColor.Red),
+                new FeedbackPin(PinColor.Red), new FeedbackPin(PinColor.Red), new FeedbackPin(PinColor.Red)};
 
         assertTrue("game_logic.ScorerTest: Guessed correct code test fail", compareFeedbackPins(expectedFeedback, feedbackPins));
     }
