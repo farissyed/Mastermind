@@ -1,7 +1,9 @@
 package game_logic;
 
 public class CodePin extends Pin {
-    public CodePin(Color c) {
+
+    public CodePin(PinColor c) {
         super(c);
     }
+
 }

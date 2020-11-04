@@ -21,8 +21,8 @@ public class Controller {
 
         System.out.println(allowDuplicatesCheckBox.isSelected());
 
-        Main.setCode(codePins);
-        CodePin[] c = Main.getCode();
+        MastermindApp.setCode(codePins);
+        CodePin[] c = MastermindApp.getCode();
 
         for (CodePin cp :
                 c) {

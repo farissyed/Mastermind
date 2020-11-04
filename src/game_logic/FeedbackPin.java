@@ -1,7 +1,7 @@
 package game_logic;
 
 public class FeedbackPin extends Pin {
-    public FeedbackPin(Color c) {
+    public FeedbackPin(PinColor c) {
         super(c);
     }
 }

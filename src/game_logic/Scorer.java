@@ -1,8 +1,7 @@
 package game_logic;
 
-import user_interface.Main;
+import user_interface.MastermindApp;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -14,14 +13,14 @@ public class Scorer {
         ArrayList<FeedbackPin> feedbackPins = new ArrayList<>();
         if(userGuess.length == actualCode.length) {
             for (int i = 0; i < actualCode.length; i++) {
-                Color c = actualCode[i].getColor();
+                PinColor c = actualCode[i].getColor();
                 int colorIndex = indexOfColor(c, userGuess);
                 if(colorIndex == i) {
-                    feedbackPins.add(new FeedbackPin(Color.Red));
+                    feedbackPins.add(new FeedbackPin(PinColor.Red));
                     userGuess[i] = null;
                 }
                 else if(colorIndex != -1) {
-                    feedbackPins.add(new FeedbackPin(Color.White));
+                    feedbackPins.add(new FeedbackPin(PinColor.White));
                     userGuess[i] = null;
                 }
             }
@@ -34,13 +33,13 @@ public class Scorer {
 
     /**
      * Get index of where the color is in the array of pins
-     * @param color
+     * @param pinColor
      * @param pins
      * @return index of color in pins or -1 if not found
      */
-    private static int indexOfColor(Color color, CodePin[] pins) {
+    private static int indexOfColor(PinColor pinColor, CodePin[] pins) {
         for (int i = 0; i < pins.length; i++) {
-            if(pins[i] != null && pins[i].getColor().equals(color)) {
+            if(pins[i] != null && pins[i].getColor().equals(pinColor)) {
                 return i;
             }
         }
@@ -49,14 +48,14 @@ public class Scorer {
 
     public static CodePin[] generateRandomCode(boolean duplicatesAllowed) {
         CodePin[] code = new CodePin[5];
-        ArrayList<Color> colors = new ArrayList<>(Arrays.asList(Color.values()));
+        ArrayList<PinColor> pinColors = new ArrayList<>(Arrays.asList(PinColor.values()));
 
 
         for (int i = 0; i < code.length; i++) {
             Random random = new Random();
-            Color c = colors.get(random.nextInt(colors.size()));
+            PinColor c = pinColors.get(random.nextInt(pinColors.size()));
             if(!duplicatesAllowed) {
-                colors.remove(c);
+                pinColors.remove(c);
             }
             code[i] = new CodePin(c);
         }
@@ -70,6 +69,6 @@ public class Scorer {
      * the UI to be displayed on the screen
      */
     public static void guess(CodePin[] userGuess) {
-        FeedbackPin[] feedbackPins = feedback(userGuess, Main.getCode());
+        FeedbackPin[] feedbackPins = feedback(userGuess, MastermindApp.getCode());
     }
 }
