@@ -1,0 +1,15 @@
+NOTE: RoboCrazy is Upneet Singh
+
+Our project is split up into 3 different packages: game logic, player data, and user interface.  The game logic package contains classes focused on generating codes and determining feedback based on the user's guess.  The user interface package contains graphics code that creates the screen and displays the code details. This section handles events such as when the user is making their guess and displaying the feedback pins when the user submits their guess.  The final package contains code that handles storage of the player's results.  There is one class here that represents the player's game results, and the other code here handles reading and writing to a JSON file with the results of each game and the current status of the player.  
+
+So far, we have done the following:
+1) Generate random code
+2) Determine feedback pins after user makes guesses
+3) Display screen with basic game outline
+4) Create enum for colors
+5) Create classes to represent code pins and feedback pins
+6) Handle game start button from menu screen
+7) Started class to represent results from a game
+
+
+The next step is to improve our design for the game mode and come up with a design for our menu screens.  
