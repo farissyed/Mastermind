@@ -1,5 +1,6 @@
 package game_logic;
 
+import com.google.gson.annotations.Expose;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -7,6 +8,7 @@ import javafx.scene.shape.Circle;
 import static user_interface.MastermindApp.CELL_SIZE;
 
 public class Pin extends StackPane {
+    @Expose(serialize = true, deserialize = true)
     private PinColor pinColor;
 
     public Pin(PinColor pinColor) {
@@ -21,7 +23,7 @@ public class Pin extends StackPane {
         relocate(x*CELL_SIZE, y*CELL_SIZE);
 
         Circle circle = new Circle(CELL_SIZE * scale);
-        circle.setFill(c.color);
+        circle.setFill(c.pinColor);
 
         circle.setStroke(Color.BLACK);
         circle.setStrokeWidth(CELL_SIZE*0.025);
@@ -36,6 +38,10 @@ public class Pin extends StackPane {
         return pinColor;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Pin{" +
+                "pinColor=" + pinColor +
+                '}';
+    }
 }

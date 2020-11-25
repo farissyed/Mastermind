@@ -20,5 +20,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="gson-2.8.6" level="project" />
+    <orderEntry type="library" name="org.hildan.fxgson:fx-gson:3.1.2" level="project" />
   </component>
 </module>
