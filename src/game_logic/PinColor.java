@@ -1,5 +1,6 @@
 package game_logic;
 
+import com.google.gson.annotations.Expose;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
@@ -17,10 +18,11 @@ public enum PinColor {
     Black(Color.BLACK), // correct color and pos
     White(Color.WHITE); // correct color not pos
 
-    final Color color;
+    @Expose(serialize = true, deserialize = true)
+    final Color pinColor;
 
-    PinColor(Color color) {
-        this.color = color;
+    PinColor(Color pinColor) {
+        this.pinColor = pinColor;
     }
 
     private static final List<PinColor> GUESS = Collections.unmodifiableList(Arrays.asList(Red, Orange, Yellow, Green, Purple));
