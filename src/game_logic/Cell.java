@@ -2,11 +2,12 @@ package game_logic;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import user_interface.MastermindApp;
 
 public class Cell extends Rectangle {
 
     private Pin pin;
+    private int cellX;
+    private int y;
 
     public boolean hasPin() {
         return pin != null;
@@ -20,11 +21,22 @@ public class Cell extends Rectangle {
         this.pin = pin;
     }
 
-    public Cell(Color c, int x, int y) {
-        setWidth(MastermindApp.CELL_SIZE);
-        setHeight(MastermindApp.CELL_SIZE);
+    public int getCellX() {
+        return cellX;
+    }
 
-        relocate(x * MastermindApp.CELL_SIZE, y * MastermindApp.CELL_SIZE);
+    public int getCellY() {
+        return y;
+    }
+
+    public Cell(Color c, int cellX, int y, int cellSize) {
+        setWidth(cellSize);
+        setHeight(cellSize);
+
+        this.cellX = cellX;
+        this.y = y;
+
+        relocate(cellX * cellSize, y * cellSize);
 
         setFill(c);
 
