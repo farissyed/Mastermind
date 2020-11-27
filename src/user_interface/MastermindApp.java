@@ -1,14 +1,14 @@
 package user_interface;
 
-import game_logic.Cell;
-import game_logic.CodePin;
-import game_logic.Pin;
-import game_logic.PinColor;
+import game_logic.*;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -22,6 +22,7 @@ public class MastermindApp extends Application {
 
     private Cell[][] guessBoard = new Cell[WIDTH][HEIGHT];
     private Cell[][] feedbackBoard = new Cell[WIDTH][HEIGHT];
+    private int numberOfGuesses = 0;
 
 
 //    public static final int CELL_SIZE
@@ -33,7 +34,7 @@ public class MastermindApp extends Application {
     private Group cellGroup = new Group();
     private Group pinGroup = new Group();
 
-    Pane root = new Pane();
+//    Pane root = new Pane();
 
     private static CodePin[] code;
 
@@ -45,33 +46,43 @@ public class MastermindApp extends Application {
         MastermindApp.code = code;
     }
 
+    private BorderPane root;
+
     private void createContent(CodePin[] code) {
-        setCode(code);
+        root = new BorderPane();
+        GridPane left = new GridPane(); //this is used for the feedback pins on the left
+        GridPane center = new GridPane();
+        root.setLeft(left);
+        root.setCenter(center);
+        left.setPadding(new Insets(10, 10, 10, 10));
+        left.add(new FeedbackCell(), 0, 0);
 
-        int cellSize = TOTAL_SIZE / 6;
-        root.setPrefSize(WIDTH * cellSize, HEIGHT * cellSize);
-        root.getChildren().addAll(cellGroup, pinGroup);
-
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-
-                Color c = x == 0 ? Color.valueOf("#814C1E") : Color.valueOf("#613814");
-
-                Cell cell = new Cell( c, x, y , cellSize);
-                cellGroup.getChildren().add(cell);
-
-                Pin pin = null;
-
-                if (y == 0 && x > 0) {
-                    pin = makePin(code[x-1].getColor(), x * cellSize, y * cellSize, cellSize);
-                }
-
-                if (pin != null) {
-                    cell.setPin(pin);
-                    pinGroup.getChildren().add(pin);
-                }
-            }
-        }
+//        setCode(code);
+//
+//        int cellSize = TOTAL_SIZE / 6;
+//        root.setPrefSize(WIDTH * cellSize, HEIGHT * cellSize);
+//        root.getChildren().addAll(cellGroup, pinGroup);
+//
+//        for (int x = 0; x < WIDTH; x++) {
+//            for (int y = 0; y < HEIGHT; y++) {
+//
+//                Color c = x == 0 ? Color.valueOf("#814C1E") : Color.valueOf("#613814");
+//
+//                Cell cell = new Cell( c, x, y , cellSize);
+//                cellGroup.getChildren().add(cell);
+//
+//                Pin pin = null;
+//
+//                if (y == 0 && x > 0) {
+//                    pin = makePin(code[x-1].getColor(), x * cellSize, y * cellSize, cellSize);
+//                }
+//
+//                if (pin != null) {
+//                    cell.setPin(pin);
+//                    pinGroup.getChildren().add(pin);
+//                }
+//            }
+//        }
 
     }
 
@@ -98,7 +109,7 @@ public class MastermindApp extends Application {
     }
 
     private void createGuessOptionSlots() {
-
+        int numOfPins = 5;
     }
 
     private Pin makePin(PinColor c, int x, int y, int cellSize) {
@@ -122,13 +133,14 @@ public class MastermindApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+
         randomCode();
         CodePin[] testCode = getCode();
 
         createContent(testCode);
         createDraggablePins();
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1200, 900);
         primaryStage.setTitle("Mastermind");
 //        Scene menuPage = new Scene(root, 800  , 600);
 //        menuPage.getStylesheets().add("user_interface/menuPage.css");

@@ -1,0 +1,17 @@
+[
+  {
+    "finalCode": [
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Green"
+      },
+      {
+        "pinColor": "Red"
+      }
+    ],
+    "numberOfTurns": 4,
+    "duplicatesAllowed": true
+  }
+]
