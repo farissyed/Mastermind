@@ -23,6 +23,10 @@ public enum PinColor {
         this.color = color;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     private static final List<PinColor> GUESS = Collections.unmodifiableList(Arrays.asList(Red, Orange, Yellow, Green, Purple));
     private static final List<PinColor> FEEDBACK = Collections.unmodifiableList(Arrays.asList(Black, White));
     private static final int SIZE = GUESS.size();
