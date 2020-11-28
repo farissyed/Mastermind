@@ -1,15 +1,16 @@
 package game_logic;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class FeedbackCell extends Cell {
+public class CodePinCell extends Cell {
     private Circle circle;
-    private FeedbackPin pin;
+    private CodePin pin;
 
-    public FeedbackCell(double centerX, double centerY) {
-        circle = new Circle(centerX, centerY, 25);
+    public CodePinCell(double centerX, double centerY) {
+        circle = new Circle(centerX, centerY, 30);
         circle.setStroke(Color.BLACK);
         circle.setStrokeWidth(1.5);
         circle.setFill(null);
@@ -17,8 +18,9 @@ public class FeedbackCell extends Cell {
         pin = null;
     }
 
-    public void setFeedbackPin(FeedbackPin pin) {
+    public void setFeedbackPin(CodePin pin) {
         this.pin = pin;
-        circle = null;
+        this.getChildren().remove(circle);
+        this.getChildren().add(pin);
     }
 }

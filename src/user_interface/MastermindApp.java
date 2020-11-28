@@ -1,17 +1,20 @@
 package user_interface;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import game_logic.*;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import jdk.internal.org.objectweb.asm.tree.IincInsnNode;
 
 import java.util.Observable;
 
@@ -48,14 +51,76 @@ public class MastermindApp extends Application {
 
     private BorderPane root;
 
+    public Cell getCellAt (final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> children = gridPane.getChildren();
+
+        for (Node node : children) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+
+        return (Cell) result;
+    }
+
     private void createContent(CodePin[] code) {
         root = new BorderPane();
+        root.setPadding(new Insets(10, 10, 10, 10));
         GridPane left = new GridPane(); //this is used for the feedback pins on the left
+        left.setPadding(new Insets(15));
+        left.setHgap(15);
+        left.setVgap(10);
         GridPane center = new GridPane();
+        center.setPadding(new Insets(15));
+        center.setHgap(15);
+        center.setVgap(10);
         root.setLeft(left);
         root.setCenter(center);
-        left.setPadding(new Insets(10, 10, 10, 10));
-        left.add(new FeedbackCell(), 0, 0);
+
+        final int feedbackPinWidth = 75;
+        final int feedbackPinHeight = 75;
+
+        int numTurns = 12;
+        int numFeedbackPins = 5; //number of columns for left section
+        for (int j = 0; j < numTurns; j++) {
+            left.getRowConstraints().add(new RowConstraints(feedbackPinHeight));
+        }
+
+        for (int i = 0; i < numFeedbackPins; i++) {
+            left.getColumnConstraints().add(new ColumnConstraints(feedbackPinWidth));
+            for (int j = 0; j < numTurns; j++) {
+                left.add(new FeedbackCell(feedbackPinWidth / 2.0, feedbackPinHeight / 2.0), i, j);
+            }
+        }
+
+
+        final int codePinWidth = 75;
+        final int codePinHeight = 75;
+
+        int numCodePins = 5; //number of columns for left section
+        for (int j = 0; j < numTurns; j++) {
+            center.getRowConstraints().add(new RowConstraints(codePinHeight));
+        }
+
+        for (int i = 0; i < numCodePins; i++) {
+            center.getColumnConstraints().add(new ColumnConstraints(codePinWidth));
+            for (int j = 0; j < numTurns; j++) {
+                center.add(new CodePinCell(codePinWidth / 2.0, codePinHeight / 2.0), i, j);
+            }
+        }
+
+        Cell c = getCellAt(3, 3, center);
+
+        if(c instanceof CodePinCell) {
+            CodePin cp = new CodePin(PinColor.Blue);
+            cp.setCircleCenter(codePinWidth / 2.0, codePinHeight / 2.0);
+            ((CodePinCell)c).setFeedbackPin(cp);
+        }
+
+
+//        left.add(new FeedbackCell(), 0, 0);
 
 //        setCode(code);
 //
@@ -84,18 +149,6 @@ public class MastermindApp extends Application {
 //            }
 //        }
 
-    }
-
-    private Cell getCellFor(int x, int y) {
-        ObservableList cells = cellGroup.getChildren();
-
-        for (int i = 0; i < cells.size(); i++) {
-            Cell cell = (Cell)cells.get(i);
-            if(cell.getCellX() == x && cell.getCellY() == y) {
-                return cell;
-            }
-        }
-        return null;
     }
 
     private void createDraggablePins() {
