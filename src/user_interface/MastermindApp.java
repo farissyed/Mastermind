@@ -1,24 +1,19 @@
 package user_interface;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import game_logic.*;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import jdk.internal.org.objectweb.asm.tree.IincInsnNode;
-
-import java.util.Observable;
 
 public class MastermindApp extends Application {
+
+    public static final int CODE_PIN_WIDTH = 75;
+    public static final int CODE_PIN_HEIGHT = 75;
 
     public static final int WIDTH = 6;
     public static final int HEIGHT = 8;
@@ -96,28 +91,21 @@ public class MastermindApp extends Application {
         }
 
 
-        final int codePinWidth = 75;
-        final int codePinHeight = 75;
+
 
         int numCodePins = 5; //number of columns for left section
         for (int j = 0; j < numTurns; j++) {
-            center.getRowConstraints().add(new RowConstraints(codePinHeight));
+            center.getRowConstraints().add(new RowConstraints(CODE_PIN_HEIGHT));
         }
 
         for (int i = 0; i < numCodePins; i++) {
-            center.getColumnConstraints().add(new ColumnConstraints(codePinWidth));
+            center.getColumnConstraints().add(new ColumnConstraints(CODE_PIN_WIDTH));
             for (int j = 0; j < numTurns; j++) {
-                center.add(new CodePinCell(codePinWidth / 2.0, codePinHeight / 2.0), i, j);
+                center.add(new CodePinCell(CODE_PIN_WIDTH / 2.0, CODE_PIN_HEIGHT / 2.0), i, j);
             }
         }
 
         Cell c = getCellAt(3, 3, center);
-
-        if(c instanceof CodePinCell) {
-            CodePin cp = new CodePin(PinColor.Blue);
-            cp.setCircleCenter(codePinWidth / 2.0, codePinHeight / 2.0);
-            ((CodePinCell)c).setFeedbackPin(cp);
-        }
 
 
 //        left.add(new FeedbackCell(), 0, 0);
