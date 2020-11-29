@@ -18,7 +18,7 @@ import java.util.Arrays;
  * Utility class with static functions to read and write score data
  */
 public class ScoreDataIO {
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithoutExposeAnnotation().create();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithoutExposeAnnotation().create();
 
     public static void appendResult(GameResult gr) {
 

@@ -4,6 +4,7 @@ import user_interface.MastermindApp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Scorer {
@@ -48,7 +49,7 @@ public class Scorer {
 
     public static CodePin[] generateRandomCode(boolean duplicatesAllowed) {
         CodePin[] code = new CodePin[5];
-        ArrayList<PinColor> pinColors = new ArrayList<>(Arrays.asList(PinColor.values()));
+        ArrayList<PinColor> pinColors = (ArrayList<PinColor>)PinColor.GUESS.clone();
 
 
         for (int i = 0; i < code.length; i++) {
@@ -68,7 +69,7 @@ public class Scorer {
      * This method should be called when the player makes a guess.  It should create the CodePin array, get the feedback, and send that feedback back to
      * the UI to be displayed on the screen
      */
-    public static void guess(CodePin[] userGuess) {
-        FeedbackPin[] feedbackPins = feedback(userGuess, MastermindApp.getCode());
+    public static FeedbackPin[] guess(CodePin[] userGuess) {
+        return feedback(userGuess, MastermindApp.getCode());
     }
 }

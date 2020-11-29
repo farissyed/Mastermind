@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 import user_interface.MastermindApp;
 
 public class CodePinCell extends Cell {
-    private Circle circle;
+    private final Circle circle;
     private CodePin pin;
     private int currentColorIndex;
 
@@ -24,7 +24,6 @@ public class CodePinCell extends Cell {
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("handling click");
                 if(pin == null) {
                     currentColorIndex = 0;
                     setCodePin(new CodePin(PinColor.GUESS.get(currentColorIndex)));
@@ -41,7 +40,9 @@ public class CodePinCell extends Cell {
         });
     }
 
-
+    public CodePin getPin() {
+        return pin;
+    }
 
     public void setCodePin(CodePin pin) {
         this.pin = pin;

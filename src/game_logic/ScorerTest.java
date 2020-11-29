@@ -25,7 +25,7 @@ public class ScorerTest {
 
         return true;
     }
-    public static void main(String args[]){
+    public static void main(String[] args){
         org.junit.runner.JUnitCore.main("game_logic.ScorerTest");
     }
 

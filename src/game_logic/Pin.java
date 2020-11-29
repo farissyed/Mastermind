@@ -9,7 +9,7 @@ import javafx.scene.shape.Circle;
 
 
 public class Pin extends Region {
-    private Circle circle;
+    private final Circle circle;
     @Expose(serialize = true, deserialize = true)
     private PinColor pinColor;
 

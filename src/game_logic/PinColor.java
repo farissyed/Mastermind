@@ -3,10 +3,7 @@ package game_logic;
 import com.google.gson.annotations.Expose;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public enum PinColor {
     Red(Color.RED),
@@ -29,8 +26,8 @@ public enum PinColor {
         return pinColor;
     }
 
-    public static final List<PinColor> GUESS = Collections.unmodifiableList(Arrays.asList(Red, Orange, Yellow, Green, Blue, Purple, Black));
-    private static final List<PinColor> FEEDBACK = Collections.unmodifiableList(Arrays.asList(Black, White));
+    public static final ArrayList<PinColor> GUESS = new ArrayList<>(Arrays.asList(Red, Orange, Yellow, Green, Blue, Purple, Black));
+    private static final List<PinColor> FEEDBACK = new ArrayList<>(Arrays.asList(Black, White));
     public static final int SIZE = GUESS.size();
     private static final Random RANDOM = new Random();
 
