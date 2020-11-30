@@ -17,11 +17,11 @@ public class Scorer {
                 PinColor c = actualCode[i].getColor();
                 int colorIndex = indexOfColor(c, userGuess);
                 if(colorIndex == i) {
-                    feedbackPins.add(new FeedbackPin(PinColor.Red));
+                    feedbackPins.add(new FeedbackPin(PinColor.CORRECT_POSITION_COLOR));
                     userGuess[i] = null;
                 }
                 else if(colorIndex != -1) {
-                    feedbackPins.add(new FeedbackPin(PinColor.White));
+                    feedbackPins.add(new FeedbackPin(PinColor.CORRECT_COLOR_COLOR));
                     userGuess[i] = null;
                 }
             }
@@ -63,6 +63,15 @@ public class Scorer {
 
 
         return code;
+    }
+
+    public static boolean codeIsCorrect(FeedbackPin[] feedbackPins) {
+        for (int i = 0; i < feedbackPins.length; i++) {
+            if(!(feedbackPins[i].getColor().equals(PinColor.CORRECT_POSITION_COLOR))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

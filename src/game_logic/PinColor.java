@@ -30,6 +30,8 @@ public enum PinColor {
     private static final List<PinColor> FEEDBACK = new ArrayList<>(Arrays.asList(Black, White));
     public static final int SIZE = GUESS.size();
     private static final Random RANDOM = new Random();
+    public static final PinColor CORRECT_POSITION_COLOR = Red; //correct color and position
+    public static final PinColor CORRECT_COLOR_COLOR = Black; //correct color but not position
 
     public static PinColor randomPinColor()  {
         return GUESS.get(RANDOM.nextInt(SIZE));
