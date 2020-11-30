@@ -10,11 +10,11 @@ import java.util.Arrays;
  */
 public class GameResult {
     @Expose(serialize = true, deserialize = true)
-    private CodePin[] finalCode;
+    private final CodePin[] finalCode;
     @Expose(serialize = true, deserialize = true)
-    private int numberOfTurns;
+    private final int numberOfTurns;
     @Expose(serialize = true, deserialize = true)
-    private boolean duplicatesAllowed;
+    private final boolean duplicatesAllowed;
 
     public GameResult(CodePin[] finalCode, int numberOfTurns, boolean duplicatesAllowed) {
         this.finalCode = finalCode;
