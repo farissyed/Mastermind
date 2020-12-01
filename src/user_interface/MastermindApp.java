@@ -136,7 +136,7 @@ public class MastermindApp extends Application {
         }
 
         makeGuessButton.setDisable(true);
-        makeGuessButton.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
+        makeGuessButton.setStyle("-fx-cursor: hand; -fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         makeGuessButton.setPadding(new Insets(15, 22, 15, 22));
         makeGuessButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -226,19 +226,21 @@ public class MastermindApp extends Application {
 
     public void createWelcomeScreen() {
         Stage stage = new Stage();
-        stage.setTitle("Welcome");
-        AnchorPane welcomeScreen = new AnchorPane();
-        Scene scene = new Scene(welcomeScreen, 520, 550);
+        stage.setTitle("Welcome to Mastermind");
+        VBox welcomeScreen = new VBox();
+        welcomeScreen.setPadding(new Insets(15));
+        welcomeScreen.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(welcomeScreen, 520, 600);
         Text title = new Text();
         title.setText("MASTERMIND");
         Font font = Font.font("Verdana", FontWeight.BOLD, 35);
         title.setFont(font);
-        setTopAnchor(title, 10.0);
-        setLeftAnchor(title, 125.0);
+//        setTopAnchor(title, 10.0);
+//        setLeftAnchor(title, 125.0);
 //        title.setStyle("-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, red 0%, orange 20%, yellow 40%, green 60%, blue 80% purple 100%);");
         Label rules = new Label();
-        setTopAnchor(rules, 65.0);
-        setLeftAnchor(rules, 80.0);
+//        setTopAnchor(rules, 65.0);
+//        setLeftAnchor(rules, 80.0);
         rules.setText("The objective of the game is to determine the passcode generated \n" +
                 "by 5 colored pegs.\n\n" +
                 "Each peg will feature one of 6 different colors: \n" +
@@ -246,7 +248,7 @@ public class MastermindApp extends Application {
                 "A peg can be of duplicate color within the code if you choose to allow \n" +
                 "duplicates within the code.\n" +
                 "\nChoose to allow duplicates within the Passcode: " +
-                "\n\n\n\n\n\n" +
+                "\n\n\n\n" +
                 "STATS\n" +
                 "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
                 "\nAverage Attempts w/ Duplicates:                                                         " + (int)ScoreDataIO.getAverageAttempts(true) +
@@ -257,10 +259,7 @@ public class MastermindApp extends Application {
 
         /*Buttons */
         RadioButton duplicates = new RadioButton("Allow Duplicates");
-        setTopAnchor(duplicates, 230.0);
-        setLeftAnchor(duplicates, 80.0);
-        duplicates.setPrefHeight(50.0);
-        duplicates.setPrefWidth(120.0);
+        duplicates.setPadding(new Insets(15));
         duplicates.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -272,10 +271,15 @@ public class MastermindApp extends Application {
         });
 
 
+        HBox buttons = new HBox();
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setSpacing(50);
+        buttons.setPadding(new Insets(25));
+
         Button play = new Button("Start Game");
-        play.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
-        setTopAnchor(play, 435.0);
-        setLeftAnchor(play, 80.0);
+        play.setStyle("-fx-cursor: hand; -fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
+//        setTopAnchor(play, 435.0);
+//        setLeftAnchor(play, 80.0);
         play.setPrefHeight(50.0);
         play.setPrefWidth(120.0);
         play.setOnAction(new EventHandler<ActionEvent>() {
@@ -287,7 +291,7 @@ public class MastermindApp extends Application {
             }
         });
         Button quit = new Button("Quit");
-        quit.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
+        quit.setStyle("-fx-cursor: hand; -fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         setTopAnchor(quit, 435.0);
         setLeftAnchor(quit, 330.0);
         quit.setPrefWidth(120.0);
@@ -299,7 +303,8 @@ public class MastermindApp extends Application {
                 System.exit(0);
             }
         });
-        welcomeScreen.getChildren().addAll(duplicates, play,quit);
+        buttons.getChildren().addAll(play, quit);
+        welcomeScreen.getChildren().addAll(duplicates, buttons);
 
         stage.setScene(scene);
         stage.show();
