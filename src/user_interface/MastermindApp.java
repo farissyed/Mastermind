@@ -265,6 +265,7 @@ public class MastermindApp extends Application {
 
 
         Button play = new Button("Start Game");
+        play.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         setTopAnchor(play, 435.0);
         setLeftAnchor(play, 80.0);
         play.setPrefHeight(50.0);
@@ -278,6 +279,7 @@ public class MastermindApp extends Application {
             }
         });
         Button quit = new Button("Quit");
+        quit.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         setTopAnchor(quit, 435.0);
         setLeftAnchor(quit, 330.0);
         quit.setPrefWidth(120.0);
@@ -308,6 +310,7 @@ public class MastermindApp extends Application {
         message.setText("Congratulations, You Win!");
 
         Button play = new Button("Play Again");
+        play.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         setTopAnchor(play,60.0);
         setLeftAnchor(play,40.0);
         play.setPrefHeight(15.0);
@@ -321,6 +324,7 @@ public class MastermindApp extends Application {
         });
 
         Button quit = new Button("Quit");
+        quit.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         setTopAnchor(quit, 60.0);
         setLeftAnchor(quit, 180.0);
         quit.setPrefHeight(15.0);
@@ -342,19 +346,20 @@ public class MastermindApp extends Application {
         //do everything if player can't guess the code and uses up all their turns
         Stage stage = new Stage();
         AnchorPane playAgain = new AnchorPane();
-        Scene scene = new Scene(playAgain, 500, 100);
+        Scene scene = new Scene(playAgain, 300, 100);
 
         Label message = new Label();
+        message.setAlignment(Pos.CENTER);
         setTopAnchor(message, 15.0);
-        setLeftAnchor(message, 75.0);
+        setLeftAnchor(message, 100.0);
         stage.setTitle("You Lose");
         message.setText("Sorry, you lose.");
 
         Button play = new Button("Play Again");
         setTopAnchor(play,60.0);
         setLeftAnchor(play,40.0);
-        play.setPrefHeight(20.0);
-        play.setPrefWidth(100.0);
+        play.setPrefHeight(15.0);
+        play.setPrefWidth(80.0);
         play.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
