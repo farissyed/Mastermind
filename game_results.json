@@ -42,5 +42,159 @@
     "numberOfTurns": 12,
     "duplicatesAllowed": true,
     "gameWon": false
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Red"
+      },
+      {
+        "pinColor": "Purple"
+      },
+      {
+        "pinColor": "Orange"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": true,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Red"
+      },
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Green"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": false,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Red"
+      },
+      {
+        "pinColor": "Green"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Black"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": false,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Black"
+      },
+      {
+        "pinColor": "Green"
+      },
+      {
+        "pinColor": "Red"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Blue"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": false,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Green"
+      },
+      {
+        "pinColor": "Purple"
+      },
+      {
+        "pinColor": "Blue"
+      }
+    ],
+    "numberOfTurns": 12,
+    "duplicatesAllowed": false,
+    "gameWon": false
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Red"
+      },
+      {
+        "pinColor": "Black"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Purple"
+      }
+    ],
+    "numberOfTurns": 2,
+    "duplicatesAllowed": false,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Black"
+      },
+      {
+        "pinColor": "Purple"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Green"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": false,
+    "gameWon": true
   }
 ]

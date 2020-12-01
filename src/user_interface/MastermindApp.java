@@ -12,12 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,19 +30,19 @@ public class MastermindApp extends Application {
     public static final int PIN_WIDTH = 50;
     public static final int PIN_HEIGHT = 50;
 
-    public static final int WIDTH = 6;
-    public static final int HEIGHT = 8;
-    public static final int TOTAL_SIZE = 600;
-
     private static CodePin[] code;
 
     private int attempts = 0;
     private static int numTurns = 12;
 
-    public static GridPane userGuessGrid = new GridPane();
-    public static Button makeGuessButton = new Button("Guess");
+    public static GridPane userGuessGrid;
+    public static Button makeGuessButton;
 
     private BorderPane root;
+    Stage welcomeStage;
+    Stage gameStage;
+    Stage winStage;
+    Stage loseStage;
 
     public static boolean allowDuplicates;
 
@@ -75,6 +73,10 @@ public class MastermindApp extends Application {
     private void createGameScreen() {
 
         root = new BorderPane();
+        attempts = 0;
+
+        userGuessGrid = new GridPane();
+        makeGuessButton = new Button("Guess");
 
         code = Scorer.generateRandomCode(allowDuplicates);
         for (CodePin c : code) {
@@ -84,8 +86,8 @@ public class MastermindApp extends Application {
         System.out.println();
         System.out.println();
 
-        Stage stage = new Stage();
-        stage.setTitle("Mastermind");
+        gameStage = new Stage();
+        gameStage.setTitle("Mastermind");
         Scene scene = new Scene(root, 1200, 1000);
 
 
@@ -108,22 +110,6 @@ public class MastermindApp extends Application {
         root.setTop(top);
 
 
-
-
-//        TextFlow flow = new TextFlow();
-//        String log = ">> Sample passed \n";
-//        Text t1 = new Text();
-//        t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
-//        t1.setText(log);
-//        Text t2 = new Text();
-//        t2.setStyle("-fx-fill: RED;-fx-font-weight:normal;");
-//        t2.setText(log);
-//        flow.getChildren().addAll(t1, t2);
-//        flow.getChildren().addAll(
-//                LabelBuilder.create().text("Say ").textFill(Color.YELLOW).build(),
-//                LabelBuilder.create().text("'iuog i").textFill(Color.DARKBLUE).build(),
-//                LabelBuilder.create().text("Hell").textFill(Color.RED).build()
-//        );
         Text makeGuessText = new Text("Make your guess:");
         makeGuessText.setStyle("-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, red 0%, orange 20%, yellow 40%, green 60%, blue 80% purple 100%);");
         makeGuessText.setFont(Font.font(50));
@@ -220,14 +206,14 @@ public class MastermindApp extends Application {
 
         root.getChildren().addAll();
 
-        stage.setScene(scene);
-        stage.show();
+        gameStage.setScene(scene);
+        gameStage.show();
     }
 
 
     public void createWelcomeScreen() {
-        Stage stage = new Stage();
-        stage.setTitle("Welcome to Mastermind");
+        welcomeStage = new Stage();
+        welcomeStage.setTitle("Welcome to Mastermind");
         VBox welcomeScreen = new VBox();
         welcomeScreen.setPadding(new Insets(15));
         welcomeScreen.setAlignment(Pos.CENTER);
@@ -286,7 +272,7 @@ public class MastermindApp extends Application {
         play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.close();
+                welcomeStage.close();
                 createGameScreen();
 
             }
@@ -300,27 +286,27 @@ public class MastermindApp extends Application {
         quit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.close();
+                welcomeStage.close();
                 System.exit(0);
             }
         });
         buttons.getChildren().addAll(play, quit);
         welcomeScreen.getChildren().addAll(duplicates, buttons);
 
-        stage.setScene(scene);
-        stage.show();
+        welcomeStage.setScene(scene);
+        welcomeStage.show();
     }
 
     public void handleCorrectGuess() {
         //do everything for if user correctly guesses the code
-        Stage stage = new Stage();
+        winStage = new Stage();
         AnchorPane playAgain = new AnchorPane();
         Scene scene = new Scene(playAgain, 300, 100);
 
         Label message = new Label();
         setTopAnchor(message, 15.0);
         setLeftAnchor(message, 75.0);
-        stage.setTitle("You Win!");
+        winStage.setTitle("You Win!");
         message.setText("Congratulations, You Win!");
 
         Button play = new Button("Play Again");
@@ -332,7 +318,8 @@ public class MastermindApp extends Application {
         play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.close();
+                gameStage.close();
+                winStage.close();
                 createGameScreen();
             }
         });
@@ -352,8 +339,8 @@ public class MastermindApp extends Application {
 
         playAgain.getChildren().addAll(message, play, quit);
 
-        stage.setScene(scene);
-        stage.show();
+        winStage.setScene(scene);
+        winStage.show();
 
         GameResult gr = new GameResult(code, attempts, allowDuplicates, true);
         ScoreDataIO.appendResult(gr);
@@ -361,7 +348,7 @@ public class MastermindApp extends Application {
     }
     public void handleGameLost() {
         //do everything if player can't guess the code and uses up all their turns
-        Stage stage = new Stage();
+        loseStage = new Stage();
         AnchorPane playAgain = new AnchorPane();
         Scene scene = new Scene(playAgain, 300, 100);
 
@@ -369,7 +356,7 @@ public class MastermindApp extends Application {
         message.setAlignment(Pos.CENTER);
         setTopAnchor(message, 15.0);
         setLeftAnchor(message, 100.0);
-        stage.setTitle("You Lose");
+        loseStage.setTitle("You Lose");
         message.setText("Sorry, you lose.");
 
         Button play = new Button("Play Again");
@@ -380,7 +367,8 @@ public class MastermindApp extends Application {
         play.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                stage.close();
+                gameStage.close();
+                loseStage.close();
                 createGameScreen();
             }
         });
@@ -399,8 +387,8 @@ public class MastermindApp extends Application {
 
         playAgain.getChildren().addAll(message, play, quit);
 
-        stage.setScene(scene);
-        stage.show();
+        loseStage.setScene(scene);
+        loseStage.show();
 
         GameResult gr = new GameResult(code, attempts, allowDuplicates, false);
         ScoreDataIO.appendResult(gr);
