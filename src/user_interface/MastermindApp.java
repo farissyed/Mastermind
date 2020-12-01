@@ -63,6 +63,12 @@ public class MastermindApp extends Application {
 
     private void createGameScreen() {
 
+        code = Scorer.generateRandomCode(allowDuplicates);
+
+        for (CodePin c : code) {
+            System.out.println(c);
+        }
+
         Stage stage = new Stage();
         stage.setTitle("Mastermind");
         BorderPane root = new BorderPane();
@@ -349,11 +355,7 @@ public class MastermindApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        code = Scorer.generateRandomCode(allowDuplicates);
 
-        for (CodePin c : code) {
-            System.out.println(c);
-        }
 
         System.out.println();
         System.out.println();
