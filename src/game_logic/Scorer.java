@@ -1,13 +1,18 @@
 package game_logic;
 
 import user_interface.MastermindApp;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class Scorer {
+
+    /**
+     * Produce an array of feedback pins based on the user's guess and the correct code
+     * @param uGuess - 
+     * @param aCode
+     * @return
+     */
     public static FeedbackPin[] feedback(CodePin[] uGuess, CodePin[] aCode) {
         CodePin[] userGuess = Arrays.copyOf(uGuess, uGuess.length);
         CodePin[] actualCode = Arrays.copyOf(aCode, aCode.length);
@@ -47,6 +52,11 @@ public class Scorer {
         return -1;
     }
 
+    /**
+     * Generate a random code for the game
+     * @param duplicatesAllowed true if duplicates should be allowed in the code
+     * @return a random code for the game
+     */
     public static CodePin[] generateRandomCode(boolean duplicatesAllowed) {
         CodePin[] code = new CodePin[5];
         ArrayList<PinColor> pinColors = (ArrayList<PinColor>)PinColor.GUESS.clone();
@@ -65,7 +75,15 @@ public class Scorer {
         return code;
     }
 
+    /**
+     * Determine whether the code is correct based on the feedback that was produced
+     * @param feedbackPins Array of feedback pins based on the code
+     * @return true if code is correct
+     */
     public static boolean codeIsCorrect(FeedbackPin[] feedbackPins) {
+        if(feedbackPins.length != 5) {
+            return false;
+        }
         for (int i = 0; i < feedbackPins.length; i++) {
             if(!(feedbackPins[i].getColor().equals(PinColor.CORRECT_POSITION_COLOR))) {
                 return false;

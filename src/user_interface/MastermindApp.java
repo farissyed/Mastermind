@@ -12,9 +12,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.LabelBuilder;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import static javafx.scene.layout.AnchorPane.setLeftAnchor;
@@ -34,6 +38,9 @@ public class MastermindApp extends Application {
     private int attempts = 0;
     private static int numTurns = 12;
 
+    public static GridPane userGuessGrid = new GridPane();
+    public static Button makeGuessButton = new Button("Guess");
+
     private final Group pinGroup = new Group();
     private BorderPane root;
 
@@ -51,7 +58,7 @@ public class MastermindApp extends Application {
         launch(args);
     }
 
-    public Cell getCellAt (int row, int column, GridPane gridPane) {
+    public static Cell getCellAt (int row, int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
 
@@ -69,6 +76,7 @@ public class MastermindApp extends Application {
         root.setPadding(new Insets(10));
         GridPane left = new GridPane(); //this is used for the feedback pins on the left
         left.setPadding(new Insets(15));
+//        left.setBackground(new Background(new BackgroundFill(Color.color(.75, .75, .75), CornerRadii.EMPTY, Insets.EMPTY)));
         left.setHgap(15);
         left.setVgap(5);
         GridPane center = new GridPane();
@@ -76,27 +84,50 @@ public class MastermindApp extends Application {
         center.setHgap(15);
         center.setVgap(5);
         VBox top = new VBox();
-        top.setPadding(new Insets(10));
+        top.setPadding(new Insets(20));
         top.setAlignment(Pos.CENTER);
+        top.setBackground(new Background(new BackgroundFill(Color.color(.75, .75, .75), CornerRadii.EMPTY, Insets.EMPTY)));
         root.setLeft(left);
         root.setCenter(center);
         root.setTop(top);
 
 
+
+
+//        TextFlow flow = new TextFlow();
+//        String log = ">> Sample passed \n";
+//        Text t1 = new Text();
+//        t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
+//        t1.setText(log);
+//        Text t2 = new Text();
+//        t2.setStyle("-fx-fill: RED;-fx-font-weight:normal;");
+//        t2.setText(log);
+//        flow.getChildren().addAll(t1, t2);
+//        flow.getChildren().addAll(
+//                LabelBuilder.create().text("Say ").textFill(Color.YELLOW).build(),
+//                LabelBuilder.create().text("'iuog i").textFill(Color.DARKBLUE).build(),
+//                LabelBuilder.create().text("Hell").textFill(Color.RED).build()
+//        );
         Text makeGuessText = new Text("Make your guess:");
-        GridPane userGuessGrid = new GridPane();
+        makeGuessText.setStyle("-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, red 0%, orange 20%, yellow 40%, green 60%, blue 80% purple 100%);");
+        makeGuessText.setFont(Font.font(50));
         userGuessGrid.setAlignment(Pos.CENTER);
+        userGuessGrid.setPadding(new Insets(25, 5, 25, 5));
         userGuessGrid.getRowConstraints().add(new RowConstraints(PIN_HEIGHT));
         for (int i = 0; i < 5; i++) {
             userGuessGrid.getColumnConstraints().add(new ColumnConstraints(PIN_WIDTH));
             CodePinCell cp = new CodePinCell(PIN_WIDTH / 2.0, PIN_HEIGHT / 2.0, false);
             userGuessGrid.add(cp, i, 0);
         }
-        Button makeGuessButton = new Button("Guess");
-        makeGuessButton.setPadding(new Insets(15));
+
+        makeGuessButton.setDisable(true);
+        makeGuessButton.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
+        makeGuessButton.setPadding(new Insets(15, 22, 15, 22));
         makeGuessButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                attempts++;
+                makeGuessButton.setDisable(true);
                 CodePin[] userGuessCode = new CodePin[5];
                 for (int i = 0; i < userGuessCode.length; i++) {
                     CodePinCell temp = ((CodePinCell)(getCellAt(0, i, userGuessGrid)));
@@ -111,7 +142,7 @@ public class MastermindApp extends Application {
                 System.out.println();
 
                 for (int i = 0; i < feedbackPins.length; i++) {
-                    FeedbackCell fc = ((FeedbackCell)(getCellAt(numTurns - attempts - 1, i, left)));
+                    FeedbackCell fc = ((FeedbackCell)(getCellAt(numTurns - attempts, i, left)));
                     fc.setVisible(true);
                     fc.setFeedbackPin(feedbackPins[i]);
                 }
@@ -119,7 +150,7 @@ public class MastermindApp extends Application {
 
                 CodePinCell[] displayUserGuessCode = new CodePinCell[5];
                 for (int i = 0; i < displayUserGuessCode.length; i++) {
-                    CodePinCell cpc = ((CodePinCell)(getCellAt(numTurns - attempts - 1, i, center)));
+                    CodePinCell cpc = ((CodePinCell)(getCellAt(numTurns - attempts, i, center)));
 
                     cpc.setVisible(true);
                     cpc.setCodePin(userGuessCode[i]);
@@ -131,7 +162,7 @@ public class MastermindApp extends Application {
                     handleCorrectGuess();
                     return;
                 }
-                attempts++;
+
                 if(attempts >= numTurns) {
                     handleGameLost();
                 }
@@ -329,7 +360,7 @@ public class MastermindApp extends Application {
         createContent();
         createDraggablePins();
 
-        Scene scene = new Scene(root, 1200, 900);
+        Scene scene = new Scene(root, 1200, 1000);
         primaryStage.setTitle("Mastermind");
 
         primaryStage.setScene(scene);
