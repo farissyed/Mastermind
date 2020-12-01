@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import user_interface.MastermindApp;
 
+import static user_interface.MastermindApp.*;
+
 public class CodePinCell extends Cell {
     private final Circle circle;
     private CodePin pin;
@@ -38,9 +40,25 @@ public class CodePinCell extends Cell {
                         }
                         pin.setPinColor(PinColor.GUESS.get(currentColorIndex));
                     }
+                    if(allUserGuessPinsFilled()) {
+                        makeGuessButton.setDisable(false);
+                    }
+                    else {
+                        makeGuessButton.setDisable(true);
+                    }
                 }
             });
         }
+    }
+
+    public boolean allUserGuessPinsFilled() {
+        for (int i = 0; i < 5; i++) {
+            CodePinCell temp = ((CodePinCell)(getCellAt(0, i, userGuessGrid)));
+            if(temp.getPin() == null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public CodePin getPin() {
