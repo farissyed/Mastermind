@@ -21,6 +21,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import player_data.GameResult;
 import player_data.ScoreDataIO;
 
 import static javafx.scene.layout.AnchorPane.setLeftAnchor;
@@ -251,8 +252,8 @@ public class MastermindApp extends Application {
                 "\n\n\n\n" +
                 "STATS\n" +
                 "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
-                "\nAverage Attempts w/ Duplicates:                                                         " + (int)ScoreDataIO.getAverageAttempts(true) +
-                "\nAverage Attempts w/o Duplicates:                                                       " + (int)ScoreDataIO.getAverageAttempts(false) +
+                "\nAverage Attempts with Duplicates:                                                      " + (int)ScoreDataIO.getAverageAttempts(true) +
+                "\nAverage Attempts without Duplicates:                                                 " + (int)ScoreDataIO.getAverageAttempts(false) +
                 "" );
         welcomeScreen.getChildren().add(title);
         welcomeScreen.getChildren().add(rules);
@@ -354,6 +355,9 @@ public class MastermindApp extends Application {
         stage.setScene(scene);
         stage.show();
 
+        GameResult gr = new GameResult(code, attempts, allowDuplicates, true);
+        ScoreDataIO.appendResult(gr);
+
     }
     public void handleGameLost() {
         //do everything if player can't guess the code and uses up all their turns
@@ -397,6 +401,9 @@ public class MastermindApp extends Application {
 
         stage.setScene(scene);
         stage.show();
+
+        GameResult gr = new GameResult(code, attempts, allowDuplicates, false);
+        ScoreDataIO.appendResult(gr);
     }
 
     @Override

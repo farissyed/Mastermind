@@ -15,11 +15,19 @@ public class GameResult {
     private final int numberOfTurns;
     @Expose(serialize = true, deserialize = true)
     private final boolean duplicatesAllowed;
+    @Expose(serialize = true, deserialize = true)
+    private final boolean gameWon;
 
-    public GameResult(CodePin[] finalCode, int numberOfTurns, boolean duplicatesAllowed) {
+
+    public GameResult(CodePin[] finalCode, int numberOfTurns, boolean duplicatesAllowed, boolean gameWon) {
         this.finalCode = finalCode;
         this.numberOfTurns = numberOfTurns;
         this.duplicatesAllowed = duplicatesAllowed;
+        this.gameWon = gameWon;
+    }
+
+    public boolean isGameWon() {
+        return gameWon;
     }
 
     public CodePin[] getFinalCode() {

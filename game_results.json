@@ -5,13 +5,42 @@
         "pinColor": "Blue"
       },
       {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Purple"
+      },
+      {
+        "pinColor": "Green"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": false,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Blue"
+      },
+      {
         "pinColor": "Green"
       },
       {
         "pinColor": "Red"
       }
     ],
-    "numberOfTurns": 4,
-    "duplicatesAllowed": true
+    "numberOfTurns": 12,
+    "duplicatesAllowed": true,
+    "gameWon": false
   }
 ]
