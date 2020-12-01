@@ -26,4 +26,3 @@ The user should also be able to view their past game results.
 4) Keep track of the player's previous guesses
 5) Store the player's results after the game( how many guesses it took to guess the code, win/lose rate)
 6) Handle if player quits the game
-7) Allow user to pause game, close program, and then resume that game later
