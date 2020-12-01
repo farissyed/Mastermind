@@ -15,6 +15,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -30,10 +31,19 @@ public class MastermindApp extends Application {
     public static final int PIN_WIDTH = 50;
     public static final int PIN_HEIGHT = 50;
 
+    public static final int WIDTH = 6;
+    public static final int HEIGHT = 8;
+    public static final int TOTAL_SIZE = 600;
+
     private static CodePin[] code;
 
     private int attempts = 0;
     private static int numTurns = 12;
+
+    public static GridPane userGuessGrid = new GridPane();
+    public static Button makeGuessButton = new Button("Guess");
+
+    private BorderPane root;
 
     public static boolean allowDuplicates;
 
@@ -49,7 +59,7 @@ public class MastermindApp extends Application {
         launch(args);
     }
 
-    public Cell getCellAt (int row, int column, GridPane gridPane) {
+    public static Cell getCellAt (int row, int column, GridPane gridPane) {
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
@@ -63,20 +73,17 @@ public class MastermindApp extends Application {
 
     private void createGameScreen() {
 
-        code = Scorer.generateRandomCode(allowDuplicates);
-
-        for (CodePin c : code) {
-            System.out.println(c);
-        }
+        root = new BorderPane();
 
         Stage stage = new Stage();
         stage.setTitle("Mastermind");
-        BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 1200, 900);
+        Scene scene = new Scene(root, 1200, 1000);
+
 
         root.setPadding(new Insets(10));
         GridPane left = new GridPane(); //this is used for the feedback pins on the left
         left.setPadding(new Insets(15));
+//        left.setBackground(new Background(new BackgroundFill(Color.color(.75, .75, .75), CornerRadii.EMPTY, Insets.EMPTY)));
         left.setHgap(15);
         left.setVgap(5);
         GridPane center = new GridPane();
@@ -84,27 +91,50 @@ public class MastermindApp extends Application {
         center.setHgap(15);
         center.setVgap(5);
         VBox top = new VBox();
-        top.setPadding(new Insets(10));
+        top.setPadding(new Insets(20));
         top.setAlignment(Pos.CENTER);
+        top.setBackground(new Background(new BackgroundFill(Color.color(.75, .75, .75), CornerRadii.EMPTY, Insets.EMPTY)));
         root.setLeft(left);
         root.setCenter(center);
         root.setTop(top);
 
 
+
+
+//        TextFlow flow = new TextFlow();
+//        String log = ">> Sample passed \n";
+//        Text t1 = new Text();
+//        t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
+//        t1.setText(log);
+//        Text t2 = new Text();
+//        t2.setStyle("-fx-fill: RED;-fx-font-weight:normal;");
+//        t2.setText(log);
+//        flow.getChildren().addAll(t1, t2);
+//        flow.getChildren().addAll(
+//                LabelBuilder.create().text("Say ").textFill(Color.YELLOW).build(),
+//                LabelBuilder.create().text("'iuog i").textFill(Color.DARKBLUE).build(),
+//                LabelBuilder.create().text("Hell").textFill(Color.RED).build()
+//        );
         Text makeGuessText = new Text("Make your guess:");
-        GridPane userGuessGrid = new GridPane();
+        makeGuessText.setStyle("-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, red 0%, orange 20%, yellow 40%, green 60%, blue 80% purple 100%);");
+        makeGuessText.setFont(Font.font(50));
         userGuessGrid.setAlignment(Pos.CENTER);
+        userGuessGrid.setPadding(new Insets(25, 5, 25, 5));
         userGuessGrid.getRowConstraints().add(new RowConstraints(PIN_HEIGHT));
         for (int i = 0; i < 5; i++) {
             userGuessGrid.getColumnConstraints().add(new ColumnConstraints(PIN_WIDTH));
             CodePinCell cp = new CodePinCell(PIN_WIDTH / 2.0, PIN_HEIGHT / 2.0, false);
             userGuessGrid.add(cp, i, 0);
         }
-        Button makeGuessButton = new Button("Guess");
-        makeGuessButton.setPadding(new Insets(15));
+
+        makeGuessButton.setDisable(true);
+        makeGuessButton.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
+        makeGuessButton.setPadding(new Insets(15, 22, 15, 22));
         makeGuessButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                attempts++;
+                makeGuessButton.setDisable(true);
                 CodePin[] userGuessCode = new CodePin[5];
                 for (int i = 0; i < userGuessCode.length; i++) {
                     CodePinCell temp = ((CodePinCell)(getCellAt(0, i, userGuessGrid)));
@@ -119,7 +149,7 @@ public class MastermindApp extends Application {
                 System.out.println();
 
                 for (int i = 0; i < feedbackPins.length; i++) {
-                    FeedbackCell fc = ((FeedbackCell)(getCellAt(numTurns - attempts - 1, i, left)));
+                    FeedbackCell fc = ((FeedbackCell)(getCellAt(numTurns - attempts, i, left)));
                     fc.setVisible(true);
                     fc.setFeedbackPin(feedbackPins[i]);
                 }
@@ -127,7 +157,7 @@ public class MastermindApp extends Application {
 
                 CodePinCell[] displayUserGuessCode = new CodePinCell[5];
                 for (int i = 0; i < displayUserGuessCode.length; i++) {
-                    CodePinCell cpc = ((CodePinCell)(getCellAt(numTurns - attempts - 1, i, center)));
+                    CodePinCell cpc = ((CodePinCell)(getCellAt(numTurns - attempts, i, center)));
 
                     cpc.setVisible(true);
                     cpc.setCodePin(userGuessCode[i]);
@@ -139,7 +169,7 @@ public class MastermindApp extends Application {
                     handleCorrectGuess();
                     return;
                 }
-                attempts++;
+
                 if(attempts >= numTurns) {
                     handleGameLost();
                 }
@@ -179,7 +209,6 @@ public class MastermindApp extends Application {
             }
         }
 
-
         root.getChildren().addAll();
 
         stage.setScene(scene);
@@ -209,7 +238,7 @@ public class MastermindApp extends Application {
                 "A peg can be of duplicate color within the code if you choose to allow \n" +
                 "duplicates within the code.\n" +
                 "\nChoose to allow duplicates within the Passcode: " +
-                "\n\n\n\n\n\n\n" +
+                "\n\n\n\n\n\n" +
                 "STATS\n" +
                 "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
                 "\nAverage Attempts w/ Duplicates:                                                         " + (int)ScoreDataIO.getAverageAttempts(true) +
@@ -236,7 +265,8 @@ public class MastermindApp extends Application {
 
 
         Button play = new Button("Start Game");
-        setTopAnchor(play, 450.0);
+        play.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
+        setTopAnchor(play, 435.0);
         setLeftAnchor(play, 80.0);
         play.setPrefHeight(50.0);
         play.setPrefWidth(120.0);
@@ -249,7 +279,8 @@ public class MastermindApp extends Application {
             }
         });
         Button quit = new Button("Quit");
-        setTopAnchor(quit, 450.0);
+        quit.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
+        setTopAnchor(quit, 435.0);
         setLeftAnchor(quit, 330.0);
         quit.setPrefWidth(120.0);
         quit.setPrefHeight(50.0);
@@ -279,6 +310,7 @@ public class MastermindApp extends Application {
         message.setText("Congratulations, You Win!");
 
         Button play = new Button("Play Again");
+        play.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         setTopAnchor(play,60.0);
         setLeftAnchor(play,40.0);
         play.setPrefHeight(15.0);
@@ -292,6 +324,7 @@ public class MastermindApp extends Application {
         });
 
         Button quit = new Button("Quit");
+        quit.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
         setTopAnchor(quit, 60.0);
         setLeftAnchor(quit, 180.0);
         quit.setPrefHeight(15.0);
@@ -313,19 +346,20 @@ public class MastermindApp extends Application {
         //do everything if player can't guess the code and uses up all their turns
         Stage stage = new Stage();
         AnchorPane playAgain = new AnchorPane();
-        Scene scene = new Scene(playAgain, 500, 100);
+        Scene scene = new Scene(playAgain, 300, 100);
 
         Label message = new Label();
+        message.setAlignment(Pos.CENTER);
         setTopAnchor(message, 15.0);
-        setLeftAnchor(message, 75.0);
+        setLeftAnchor(message, 100.0);
         stage.setTitle("You Lose");
         message.setText("Sorry, you lose.");
 
         Button play = new Button("Play Again");
         setTopAnchor(play,60.0);
         setLeftAnchor(play,40.0);
-        play.setPrefHeight(20.0);
-        play.setPrefWidth(100.0);
+        play.setPrefHeight(15.0);
+        play.setPrefWidth(80.0);
         play.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -355,7 +389,11 @@ public class MastermindApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        code = Scorer.generateRandomCode(allowDuplicates);
 
+        for (CodePin c : code) {
+            System.out.println(c);
+        }
 
         System.out.println();
         System.out.println();
