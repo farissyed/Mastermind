@@ -7,15 +7,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import player_data.ScoreDataIO;
 
 import static javafx.scene.layout.AnchorPane.setLeftAnchor;
 import static javafx.scene.layout.AnchorPane.setTopAnchor;
@@ -25,17 +30,10 @@ public class MastermindApp extends Application {
     public static final int PIN_WIDTH = 50;
     public static final int PIN_HEIGHT = 50;
 
-    public static final int WIDTH = 6;
-    public static final int HEIGHT = 8;
-    public static final int TOTAL_SIZE = 600;
-
     private static CodePin[] code;
 
     private int attempts = 0;
     private static int numTurns = 12;
-
-    private final Group pinGroup = new Group();
-    private BorderPane root;
 
     public static boolean allowDuplicates;
 
@@ -52,7 +50,6 @@ public class MastermindApp extends Application {
     }
 
     public Cell getCellAt (int row, int column, GridPane gridPane) {
-        Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
@@ -64,8 +61,13 @@ public class MastermindApp extends Application {
         return null;
     }
 
-    private void createContent() {
-        root = new BorderPane();
+    private void createGameScreen() {
+
+        Stage stage = new Stage();
+        stage.setTitle("Mastermind");
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, 1200, 900);
+
         root.setPadding(new Insets(10));
         GridPane left = new GridPane(); //this is used for the feedback pins on the left
         left.setPadding(new Insets(15));
@@ -170,22 +172,65 @@ public class MastermindApp extends Application {
                 center.add(cpc, i, j);
             }
         }
+
+
+        root.getChildren().addAll();
+
+        stage.setScene(scene);
+        stage.show();
     }
 
 
-    public void createMenuScreen() {
+    public void createWelcomeScreen() {
         Stage stage = new Stage();
-        stage.setTitle("Welcome to Mastermind");
-        AnchorPane menuScreen = new AnchorPane();
-        Scene scene = new Scene(menuScreen, 500, 500);
+        stage.setTitle("Welcome");
+        AnchorPane welcomeScreen = new AnchorPane();
+        Scene scene = new Scene(welcomeScreen, 520, 550);
+        Text title = new Text();
+        title.setText("MASTERMIND");
+        Font font = Font.font("Verdana", FontWeight.BOLD, 35);
+        title.setFont(font);
+        setTopAnchor(title, 10.0);
+        setLeftAnchor(title, 125.0);
+//        title.setStyle("-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, red 0%, orange 20%, yellow 40%, green 60%, blue 80% purple 100%);");
         Label rules = new Label();
-        setTopAnchor(rules, 15.0);
+        setTopAnchor(rules, 65.0);
         setLeftAnchor(rules, 80.0);
-        rules.setText("TYPE OUT RULES");
-        menuScreen.getChildren().add(rules);
+        rules.setText("The objective of the game is to determine the passcode generated \n" +
+                "by 5 colored pegs.\n\n" +
+                "Each peg will feature one of 6 different colors: \n" +
+                "Red, Orange, Yellow, Green, Blue, Purple, Black\n\n" +
+                "A peg can be of duplicate color within the code if you choose to allow \n" +
+                "duplicates within the code.\n" +
+                "\nChoose to allow duplicates within the Passcode: " +
+                "\n\n\n\n\n\n" +
+                "STATS\n" +
+                "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
+                "\nAverage Attempts w/ Duplicates:                                                         " + (int)ScoreDataIO.getAverageAttempts(true) +
+                "\nAverage Attempts w/o Duplicates:                                                       " + (int)ScoreDataIO.getAverageAttempts(false) +
+                "" );
+        welcomeScreen.getChildren().add(title);
+        welcomeScreen.getChildren().add(rules);
+
+        /*Buttons */
+        RadioButton duplicates = new RadioButton("Allow Duplicates");
+        setTopAnchor(duplicates, 230.0);
+        setLeftAnchor(duplicates, 80.0);
+        duplicates.setPrefHeight(50.0);
+        duplicates.setPrefWidth(120.0);
+        duplicates.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (allowDuplicates) {
+                    allowDuplicates = false;
+                } else allowDuplicates = true;
+                System.out.println(String.valueOf(allowDuplicates));
+            }
+        });
+
 
         Button play = new Button("Start Game");
-        setTopAnchor(play, 420.0);
+        setTopAnchor(play, 435.0);
         setLeftAnchor(play, 80.0);
         play.setPrefHeight(50.0);
         play.setPrefWidth(120.0);
@@ -193,11 +238,12 @@ public class MastermindApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 stage.close();
-                createContent(); //TODO CHECK TO SEE IF THIS WORKS
+                createGameScreen();
+
             }
         });
         Button quit = new Button("Quit");
-        setTopAnchor(quit, 420.0);
+        setTopAnchor(quit, 435.0);
         setLeftAnchor(quit, 330.0);
         quit.setPrefWidth(120.0);
         quit.setPrefHeight(50.0);
@@ -208,7 +254,7 @@ public class MastermindApp extends Application {
                 System.exit(0);
             }
         });
-        menuScreen.getChildren().addAll(play,quit);
+        welcomeScreen.getChildren().addAll(duplicates, play,quit);
 
         stage.setScene(scene);
         stage.show();
@@ -218,24 +264,24 @@ public class MastermindApp extends Application {
         //do everything for if user correctly guesses the code
         Stage stage = new Stage();
         AnchorPane playAgain = new AnchorPane();
-        Scene scene = new Scene(playAgain, 500, 100);
+        Scene scene = new Scene(playAgain, 300, 100);
 
         Label message = new Label();
-        setTopAnchor(message, 10.0);
-        setLeftAnchor(message, 105.0);
+        setTopAnchor(message, 15.0);
+        setLeftAnchor(message, 75.0);
         stage.setTitle("You Win!");
         message.setText("Congratulations, You Win!");
 
         Button play = new Button("Play Again");
         setTopAnchor(play,60.0);
         setLeftAnchor(play,40.0);
-        play.setPrefHeight(20.0);
-        play.setPrefWidth(100.0);
-        play.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        play.setPrefHeight(15.0);
+        play.setPrefWidth(80.0);
+        play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(ActionEvent event) {
                 stage.close();
-                (new MastermindApp()).createContent(); //TODO make game play again
+                createGameScreen();
             }
         });
 
@@ -264,10 +310,10 @@ public class MastermindApp extends Application {
         Scene scene = new Scene(playAgain, 500, 100);
 
         Label message = new Label();
-        setTopAnchor(message, 10.0);
-        setLeftAnchor(message, 105.0);
+        setTopAnchor(message, 15.0);
+        setLeftAnchor(message, 75.0);
         stage.setTitle("You Lose");
-        message.setText("Sorry, you lose :(");
+        message.setText("Sorry, you lose.");
 
         Button play = new Button("Play Again");
         setTopAnchor(play,60.0);
@@ -278,7 +324,7 @@ public class MastermindApp extends Application {
             @Override
             public void handle(MouseEvent event) {
                 stage.close();
-                (new MastermindApp()).createContent(); //TODO make game play again
+                createGameScreen();
             }
         });
 
@@ -300,40 +346,27 @@ public class MastermindApp extends Application {
         stage.show();
     }
 
-    private void createDraggablePins() {
-        int numOfPins = PinColor.SIZE;
-        int cellSize = TOTAL_SIZE / numOfPins;
-        for (int i = 0; i < PinColor.GUESS.size(); i++) {
-            Pin pin = makePin(PinColor.GUESS.get(i), (i + 1) * cellSize, HEIGHT * cellSize, cellSize);
-            pinGroup.getChildren().add(pin);
-
-        }
-    }
-
-    private Pin makePin(PinColor c, int x, int y, int cellSize) {
-        Pin pin = new Pin(c, x ,y, cellSize);
-        return pin;
-    }
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        code = Scorer.generateRandomCode(false);
+        code = Scorer.generateRandomCode(allowDuplicates);
+
         for (CodePin c : code) {
             System.out.println(c);
         }
+
         System.out.println();
         System.out.println();
 
-        createContent();
-        createDraggablePins();
+        createWelcomeScreen();
 
-        Scene scene = new Scene(root, 1200, 900);
-        primaryStage.setTitle("Mastermind");
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
+//        createGameScreen();
+//        createDraggablePins();
+//
+//        Scene scene = new Scene(root, 1200, 900);
+//
+//        primaryStage.setScene(scene);
+//        primaryStage.show();
 
     }
 }
