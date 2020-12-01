@@ -209,7 +209,7 @@ public class MastermindApp extends Application {
                 "A peg can be of duplicate color within the code if you choose to allow \n" +
                 "duplicates within the code.\n" +
                 "\nChoose to allow duplicates within the Passcode: " +
-                "\n\n\n\n\n\n" +
+                "\n\n\n\n\n\n\n" +
                 "STATS\n" +
                 "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
                 "\nAverage Attempts w/ Duplicates:                                                         " + (int)ScoreDataIO.getAverageAttempts(true) +
@@ -236,7 +236,7 @@ public class MastermindApp extends Application {
 
 
         Button play = new Button("Start Game");
-        setTopAnchor(play, 435.0);
+        setTopAnchor(play, 450.0);
         setLeftAnchor(play, 80.0);
         play.setPrefHeight(50.0);
         play.setPrefWidth(120.0);
@@ -249,7 +249,7 @@ public class MastermindApp extends Application {
             }
         });
         Button quit = new Button("Quit");
-        setTopAnchor(quit, 435.0);
+        setTopAnchor(quit, 450.0);
         setLeftAnchor(quit, 330.0);
         quit.setPrefWidth(120.0);
         quit.setPrefHeight(50.0);
