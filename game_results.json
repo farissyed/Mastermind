@@ -196,5 +196,71 @@
     "numberOfTurns": 1,
     "duplicatesAllowed": false,
     "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Yellow"
+      }
+    ],
+    "numberOfTurns": 8,
+    "duplicatesAllowed": true,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Purple"
+      },
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Black"
+      },
+      {
+        "pinColor": "Green"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": false,
+    "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Yellow"
+      },
+      {
+        "pinColor": "Yellow"
+      }
+    ],
+    "numberOfTurns": 1,
+    "duplicatesAllowed": true,
+    "gameWon": true
   }
 ]

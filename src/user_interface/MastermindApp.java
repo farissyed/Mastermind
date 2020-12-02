@@ -226,7 +226,7 @@ public class MastermindApp extends Application {
 
         rules.setText("The objective of the game is to determine the passcode generated \n" +
                 "by 5 colored pegs.\n\n" +
-                "Each peg will feature one of 6 different colors: \n" +
+                "Each peg will feature one of 7 different colors: \n" +
                 "Red, Orange, Yellow, Green, Blue, Purple, Black\n\n" +
                 "A peg can be of duplicate color within the code if you choose to allow \n" +
                 "duplicates within the code.\n" +
