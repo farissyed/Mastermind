@@ -222,28 +222,24 @@ public class MastermindApp extends Application {
         title.setText("MASTERMIND");
         Font font = Font.font("Verdana", FontWeight.BOLD, 35);
         title.setFont(font);
-//        setTopAnchor(title, 10.0);
-//        setLeftAnchor(title, 125.0);
-//        title.setStyle("-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, red 0%, orange 20%, yellow 40%, green 60%, blue 80% purple 100%);");
         Label rules = new Label();
-//        setTopAnchor(rules, 65.0);
-//        setLeftAnchor(rules, 80.0);
+
         rules.setText("The objective of the game is to determine the passcode generated \n" +
                 "by 5 colored pegs.\n\n" +
                 "Each peg will feature one of 6 different colors: \n" +
                 "Red, Orange, Yellow, Green, Blue, Purple, Black\n\n" +
                 "A peg can be of duplicate color within the code if you choose to allow \n" +
                 "duplicates within the code.\n" +
-                "\nChoose to allow duplicates within the Passcode: " +
-                "\n\n\n\n" +
+                "\nChoose to allow duplicates within the Passcode: ");
+        Label gameStats = new Label();
+        gameStats.setText(
+                "\n" +
                 "STATS\n" +
                 "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
                 "\nAverage Attempts with Duplicates:                                                      " + (int)ScoreDataIO.getAverageAttempts(true) +
                 "\nAverage Attempts without Duplicates:                                                 " + (int)ScoreDataIO.getAverageAttempts(false) +
                 "" );
         welcomeScreen.getChildren().add(title);
-        welcomeScreen.getChildren().add(rules);
-
         /*Buttons */
         RadioButton duplicates = new RadioButton("Allow Duplicates");
         duplicates.setPadding(new Insets(15));
@@ -256,6 +252,10 @@ public class MastermindApp extends Application {
                 System.out.println(String.valueOf(allowDuplicates));
             }
         });
+
+        welcomeScreen.getChildren().addAll(rules, duplicates, gameStats);
+
+
 
 
         HBox buttons = new HBox();
@@ -291,7 +291,7 @@ public class MastermindApp extends Application {
             }
         });
         buttons.getChildren().addAll(play, quit);
-        welcomeScreen.getChildren().addAll(duplicates, buttons);
+        welcomeScreen.getChildren().addAll(buttons);
 
         welcomeStage.setScene(scene);
         welcomeStage.show();
