@@ -11,8 +11,8 @@ public class Scorer {
     /**
      * Produce an array of feedback pins based on the user's guess and the correct code
      *
-     * @param uGuess -
-     * @param aCode
+     * @param uGuess User guess of the code
+     * @param aCode Actual code set by codemaster
      * @return
      */
     public static FeedbackPin[] feedback(CodePin[] uGuess, CodePin[] aCode) {
@@ -49,8 +49,8 @@ public class Scorer {
     /**
      * Get index of where the color is in the array of pins
      *
-     * @param pinColor - The color to find
-     * @param pins     - The array to find the color within
+     * @param pinColor The color to find
+     * @param pins     The array to find the color within
      * @return index of color in pins or -1 if not found
      */
     private static int indexOfColor(PinColor pinColor, CodePin[] pins) {
@@ -105,8 +105,9 @@ public class Scorer {
     }
 
     /**
-     * This method should be called when the player makes a guess.  It should create the CodePin array, get the feedback, and send that feedback back to
-     * the UI to be displayed on the screen
+     * This method should be called when the player makes a guess.  It should create the CodePin array, get the feedback, and send that feedback back to the UI to be displayed on the screen
+     * @param userGuess
+     * @return Feedback for user to be displayed by UI
      */
     public static FeedbackPin[] guess(CodePin[] userGuess) {
         return feedback(userGuess, MastermindApp.getCode());

@@ -15,6 +15,10 @@ import java.util.Arrays;
 public class ScoreDataIO {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithoutExposeAnnotation().create();
 
+    /**
+     * Adds the game result to the JSON file
+     * @param gr Result of game
+     */
     public static void appendResult(GameResult gr) {
 
         try {
@@ -34,6 +38,9 @@ public class ScoreDataIO {
         }
     }
 
+    /**
+     * @return Game results from the JSON file
+     */
     public static GameResult[] getResults() {
         FileReader reader = null;
         GameResult[] results = null;
@@ -54,6 +61,10 @@ public class ScoreDataIO {
         return results;
     }
 
+    /**
+     * @param duplicatesAllowed Boolean that specifies if duplicates were allowed within the game
+     * @return The average number of attempts needed to win
+     */
     public static double getAverageAttempts(boolean duplicatesAllowed) {
         GameResult[] results = getResults();
 
@@ -72,6 +83,9 @@ public class ScoreDataIO {
         return 0;
     }
 
+    /**
+     * @return Number of games played
+     */
     public static int getGamesPlayed() {
         GameResult[] results = getResults();
         return results.length;

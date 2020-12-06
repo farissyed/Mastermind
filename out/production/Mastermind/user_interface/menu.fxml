@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane alignment="TOP_CENTER" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="user_interface.Controller">
+    <padding><Insets topRightBottomLeft="20" /> </padding>
+
+    <Text styleClass="gameTitle" GridPane.columnIndex="0" GridPane.rowIndex="0">Mastermind</Text>
+
+    <CheckBox fx:id="allowDuplicatesCheckBox" GridPane.columnIndex="0" GridPane.rowIndex="1"></CheckBox>
+    <Label GridPane.columnIndex="1" GridPane.rowIndex="1">Allow duplicates</Label>
+
+    <Button fx:id="startGameBtn" styleClass="button" GridPane.columnIndex="0" GridPane.rowIndex="2" onMouseClicked="#onStartGame">Start Game</Button>
+</GridPane>

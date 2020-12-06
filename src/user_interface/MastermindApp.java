@@ -33,7 +33,7 @@ public class MastermindApp extends Application {
     private static CodePin[] code;
 
     private int attempts = 0;
-    private static int numTurns = 12;
+    private static final int numTurns = 12;
 
     public static GridPane userGuessGrid;
     public static Button makeGuessButton;
@@ -45,6 +45,7 @@ public class MastermindApp extends Application {
     Stage loseStage;
 
     public static boolean allowDuplicates;
+
 
     public static CodePin[] getCode() {
         return code;
@@ -58,19 +59,28 @@ public class MastermindApp extends Application {
         launch(args);
     }
 
-    public static Cell getCellAt (int row, int column, GridPane gridPane) {
+    /**
+     * @param row
+     * @param column
+     * @param gridPane
+     * @return Returns the cell at specified position
+     */
+    public static Cell getCellAt(int row, int column, GridPane gridPane) {
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                return (Cell)node;
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                return (Cell) node;
             }
         }
 
         return null;
     }
 
-    private void createGameScreen() {
+    /**
+     * Creates the screen in which the game is played
+     */
+    public void createGameScreen() {
 
         root = new BorderPane();
         attempts = 0;
@@ -94,7 +104,6 @@ public class MastermindApp extends Application {
         root.setPadding(new Insets(10));
         GridPane left = new GridPane(); //this is used for the feedback pins on the left
         left.setPadding(new Insets(15));
-//        left.setBackground(new Background(new BackgroundFill(Color.color(.75, .75, .75), CornerRadii.EMPTY, Insets.EMPTY)));
         left.setHgap(15);
         left.setVgap(5);
         GridPane center = new GridPane();
@@ -132,7 +141,7 @@ public class MastermindApp extends Application {
                 makeGuessButton.setDisable(true);
                 CodePin[] userGuessCode = new CodePin[5];
                 for (int i = 0; i < userGuessCode.length; i++) {
-                    CodePinCell temp = ((CodePinCell)(getCellAt(0, i, userGuessGrid)));
+                    CodePinCell temp = ((CodePinCell) (getCellAt(0, i, userGuessGrid)));
                     userGuessCode[i] = new CodePin(temp.getPin().getColor());
                     userGuessCode[i].setCircleCenter(temp.getPin().getCenterX(), temp.getPin().getCenterY());
                     temp.clearPin();
@@ -144,7 +153,7 @@ public class MastermindApp extends Application {
                 System.out.println();
 
                 for (int i = 0; i < feedbackPins.length; i++) {
-                    FeedbackCell fc = ((FeedbackCell)(getCellAt(numTurns - attempts, i, left)));
+                    FeedbackCell fc = ((FeedbackCell) (getCellAt(numTurns - attempts, i, left)));
                     fc.setVisible(true);
                     fc.setFeedbackPin(feedbackPins[i]);
                 }
@@ -152,20 +161,20 @@ public class MastermindApp extends Application {
 
                 CodePinCell[] displayUserGuessCode = new CodePinCell[5];
                 for (int i = 0; i < displayUserGuessCode.length; i++) {
-                    CodePinCell cpc = ((CodePinCell)(getCellAt(numTurns - attempts, i, center)));
+                    CodePinCell cpc = ((CodePinCell) (getCellAt(numTurns - attempts, i, center)));
 
                     cpc.setVisible(true);
                     cpc.setCodePin(userGuessCode[i]);
                 }
 
                 //check if code is correct
-                if(Scorer.codeIsCorrect(feedbackPins)) {
+                if (Scorer.codeIsCorrect(feedbackPins)) {
                     //display "you win screen" and save game data
                     handleCorrectGuess();
                     return;
                 }
 
-                if(attempts >= numTurns) {
+                if (attempts >= numTurns) {
                     handleGameLost();
                 }
 
@@ -183,7 +192,7 @@ public class MastermindApp extends Application {
         for (int i = 0; i < numFeedbackPins; i++) {
             left.getColumnConstraints().add(new ColumnConstraints(PIN_WIDTH));
             for (int j = 0; j < numTurns; j++) {
-                FeedbackCell fc =new FeedbackCell(PIN_WIDTH / 2.0, PIN_HEIGHT / 2.0);
+                FeedbackCell fc = new FeedbackCell(PIN_WIDTH / 2.0, PIN_HEIGHT / 2.0);
                 fc.setVisible(false);
                 left.add(fc, i, j);
             }
@@ -211,6 +220,9 @@ public class MastermindApp extends Application {
     }
 
 
+    /**
+     * Creates the initial screen to welcome the user
+     */
     public void createWelcomeScreen() {
         welcomeStage = new Stage();
         welcomeStage.setTitle("Welcome to Mastermind");
@@ -234,11 +246,11 @@ public class MastermindApp extends Application {
         Label gameStats = new Label();
         gameStats.setText(
                 "\n" +
-                "STATS\n" +
-                "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
-                "\nAverage Attempts with Duplicates:                                                      " + (int)ScoreDataIO.getAverageAttempts(true) +
-                "\nAverage Attempts without Duplicates:                                                 " + (int)ScoreDataIO.getAverageAttempts(false) +
-                "" );
+                        "STATS\n" +
+                        "\nGames Played:                                                                                      " + ScoreDataIO.getGamesPlayed() +
+                        "\nAverage Attempts with Duplicates:                                                      " + (int) ScoreDataIO.getAverageAttempts(true) +
+                        "\nAverage Attempts without Duplicates:                                                 " + (int) ScoreDataIO.getAverageAttempts(false) +
+                        "");
         welcomeScreen.getChildren().add(title);
         /*Buttons */
         RadioButton duplicates = new RadioButton("Allow Duplicates");
@@ -246,17 +258,12 @@ public class MastermindApp extends Application {
         duplicates.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (allowDuplicates) {
-                    allowDuplicates = false;
-                } else allowDuplicates = true;
-                System.out.println(String.valueOf(allowDuplicates));
+                allowDuplicates = !allowDuplicates;
+                System.out.println(allowDuplicates);
             }
         });
 
         welcomeScreen.getChildren().addAll(rules, duplicates, gameStats);
-
-
-
 
         HBox buttons = new HBox();
         buttons.setAlignment(Pos.CENTER);
@@ -265,8 +272,6 @@ public class MastermindApp extends Application {
 
         Button play = new Button("Start Game");
         play.setStyle("-fx-cursor: hand; -fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
-//        setTopAnchor(play, 435.0);
-//        setLeftAnchor(play, 80.0);
         play.setPrefHeight(50.0);
         play.setPrefWidth(120.0);
         play.setOnAction(new EventHandler<ActionEvent>() {
@@ -297,6 +302,9 @@ public class MastermindApp extends Application {
         welcomeStage.show();
     }
 
+    /**
+     * Generates the screen when the user wins the game
+     */
     public void handleCorrectGuess() {
         //do everything for if user correctly guesses the code
         winStage = new Stage();
@@ -311,8 +319,8 @@ public class MastermindApp extends Application {
 
         Button play = new Button("Play Again");
         play.setStyle("-fx-background-color: white; -fx-font-weight: bold; -fx-background-radius: 10;");
-        setTopAnchor(play,60.0);
-        setLeftAnchor(play,40.0);
+        setTopAnchor(play, 60.0);
+        setLeftAnchor(play, 40.0);
         play.setPrefHeight(15.0);
         play.setPrefWidth(80.0);
         play.setOnAction(new EventHandler<ActionEvent>() {
@@ -346,6 +354,10 @@ public class MastermindApp extends Application {
         ScoreDataIO.appendResult(gr);
 
     }
+
+    /**
+     * Generates the screen when the user loses the game
+     */
     public void handleGameLost() {
         //do everything if player can't guess the code and uses up all their turns
         loseStage = new Stage();
@@ -360,8 +372,8 @@ public class MastermindApp extends Application {
         message.setText("Sorry, you lose.");
 
         Button play = new Button("Play Again");
-        setTopAnchor(play,60.0);
-        setLeftAnchor(play,40.0);
+        setTopAnchor(play, 60.0);
+        setLeftAnchor(play, 40.0);
         play.setPrefHeight(15.0);
         play.setPrefWidth(80.0);
         play.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -396,20 +408,6 @@ public class MastermindApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
-
-
-
         createWelcomeScreen();
-
-//        createGameScreen();
-//        createDraggablePins();
-//
-//        Scene scene = new Scene(root, 1200, 900);
-//
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-
     }
 }

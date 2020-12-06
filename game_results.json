@@ -262,5 +262,27 @@
     "numberOfTurns": 1,
     "duplicatesAllowed": true,
     "gameWon": true
+  },
+  {
+    "finalCode": [
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Blue"
+      },
+      {
+        "pinColor": "Orange"
+      },
+      {
+        "pinColor": "Black"
+      }
+    ],
+    "numberOfTurns": 3,
+    "duplicatesAllowed": true,
+    "gameWon": true
   }
 ]
