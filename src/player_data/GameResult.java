@@ -19,6 +19,13 @@ public class GameResult {
     private final boolean gameWon;
 
 
+    /**
+     * Construct a GameResult object with the given object
+     * @param finalCode The code for the game
+     * @param numberOfTurns The number of turns it took the player to get the code
+     * @param duplicatesAllowed true if duplicates were allowed, false otherwise
+     * @param gameWon true if the player won the game
+     */
     public GameResult(CodePin[] finalCode, int numberOfTurns, boolean duplicatesAllowed, boolean gameWon) {
         this.finalCode = finalCode;
         this.numberOfTurns = numberOfTurns;

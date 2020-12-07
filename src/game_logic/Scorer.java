@@ -97,7 +97,7 @@ public class Scorer {
             return false;
         }
         for (int i = 0; i < feedbackPins.length; i++) {
-            if (!(feedbackPins[i].getColor().equals(PinColor.CORRECT_POSITION_COLOR))) {
+            if (!(feedbackPins[i].getColor().equals(PinColor.CORRECT_POSITION_COLOR))) { //if any of the colors do not match
                 return false;
             }
         }
@@ -106,7 +106,7 @@ public class Scorer {
 
     /**
      * This method should be called when the player makes a guess.  It should create the CodePin array, get the feedback, and send that feedback back to the UI to be displayed on the screen
-     * @param userGuess
+     * @param userGuess The array of CodePins that the user made as a guess
      * @return Feedback for user to be displayed by UI
      */
     public static FeedbackPin[] guess(CodePin[] userGuess) {

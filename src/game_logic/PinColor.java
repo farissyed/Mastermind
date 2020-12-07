@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 
 import java.util.*;
 
+/**
+ * Enum to represent the
+ */
 public enum PinColor {
     Red(Color.RED),
     Orange(Color.ORANGE),

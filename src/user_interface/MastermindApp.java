@@ -25,6 +25,9 @@ import player_data.ScoreDataIO;
 import static javafx.scene.layout.AnchorPane.setLeftAnchor;
 import static javafx.scene.layout.AnchorPane.setTopAnchor;
 
+/**
+ * This is the main class that begins the entire program
+ */
 public class MastermindApp extends Application {
 
     public static final int PIN_WIDTH = 50;
@@ -60,9 +63,9 @@ public class MastermindApp extends Application {
     }
 
     /**
-     * @param row
-     * @param column
-     * @param gridPane
+     * @param row - The row index
+     * @param column - The column index
+     * @param gridPane - The grid pane to look within
      * @return Returns the cell at specified position
      */
     public static Cell getCellAt(int row, int column, GridPane gridPane) {
@@ -174,7 +177,7 @@ public class MastermindApp extends Application {
                     return;
                 }
 
-                if (attempts >= numTurns) {
+                if (attempts >= numTurns) { //the user has lost the game
                     handleGameLost();
                 }
 
@@ -184,11 +187,14 @@ public class MastermindApp extends Application {
         top.getChildren().addAll(makeGuessText, userGuessGrid, makeGuessButton);
 
 
+        //Create grid of feedback pins
         int numFeedbackPins = 5; //number of columns for left section
         for (int j = 0; j < numTurns; j++) {
             left.getRowConstraints().add(new RowConstraints(PIN_HEIGHT));
         }
 
+
+        //Add constraints to rows and columns in feedback area
         for (int i = 0; i < numFeedbackPins; i++) {
             left.getColumnConstraints().add(new ColumnConstraints(PIN_WIDTH));
             for (int j = 0; j < numTurns; j++) {
@@ -199,11 +205,12 @@ public class MastermindApp extends Application {
         }
 
 
-        int numCodePins = 5; //number of columns for left section
+        int numCodePins = 5; //number of columns for center section
         for (int j = 0; j < numTurns; j++) {
             center.getRowConstraints().add(new RowConstraints(PIN_HEIGHT));
         }
 
+        //Add constraints to rows and columns in code pins area
         for (int i = 0; i < numCodePins; i++) {
             center.getColumnConstraints().add(new ColumnConstraints(PIN_WIDTH));
             for (int j = 0; j < numTurns; j++) {
